@@ -12,7 +12,7 @@ public class App
 {
     private static final Logger logger = Logger.getLogger(App.class.getName());
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException { //NOPMD
         List<String> allowedKeywords = new ArrayList<>()
         {{
             add("town-founding");
@@ -33,7 +33,16 @@ public class App
                     }
 
                 }
-                System.out.println(parts[0] + " " + parts[1] + " " + parts[2]);
+                switch (parts[0]) {
+                    case "town-founding":
+                        break;
+                    case "town-population":
+                        break;
+                    case "railway-construction":
+                        break;
+                    case "railway-duplication":
+                        break;
+                }
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {

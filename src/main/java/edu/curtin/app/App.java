@@ -19,7 +19,7 @@ public class App
 
     public static void main(String[] args) throws IOException { //NOPMD
 
-        int dayCount = 0;
+        int dayCount = 1;
 
         List<String> allowedKeywords = new ArrayList<>()
         {{
@@ -39,15 +39,18 @@ public class App
 
         while (System.in.available() == 0) {
             try {
-                dayCount++;
+
                 String[] parts = new String[3];
                 String message;
+                System.out.println("\n--------------------------------");
+                System.out.println("Day :" + dayCount + "\n");
                 while ((message = input.nextMessage()) != null) {
                     parts = message.split(" ");
 
                     if (parts.length != 3 || !allowedKeywords.contains(parts[0])) {
                         throw new IllegalArgumentException("Message must have 3 parts");
                     }
+
                     System.out.println(parts[0] + " " + parts[1] + " " + parts[2]);
 
                     switch (parts[0]) {
@@ -66,6 +69,7 @@ public class App
                         {
                             Town townA = townManager.getTown(parts[1]);
                             Town townB = townManager.getTown(parts[2]);
+
                             RailwayController singleTrack = factory.createRailwayController(townA, townB);
                             townManager.addTrack(singleTrack);
                             newDayObservers.add((NewDayObserver) singleTrack);
@@ -74,26 +78,37 @@ public class App
                         case "railway-duplication":
                             Town townA = townManager.getTown(parts[1]);
                             Town townB = townManager.getTown(parts[2]);
+
                             RailwayController curSingleTrack = townManager.getTrackByTowns(townA, townB);
-                            //curSingleTrack.transportGoods();
                             curSingleTrack.beginDoubleConstruction();
                             break;
                     }
                 };
+                System.out.println();
 
-                //print the results
+                List<Town> townsList = townManager.getTownsAsList();
+                List<RailwayController> tracksList = townManager.getTracksAsList();
+
+                for (Town town : townsList) {
+                    int singleTracks = town.getNumSingleTracks();
+                    int doubleTracks = town.getNumDoubleTracks();
+                    int population = town.getPopulation();
+                    int stockpile = town.getStockpile();
+                    int goodsTransporting = (singleTracks + doubleTracks) * 100;
+                    String townName = town.getName();
+                    System.out.println(townName + " p:" + town.getPopulation() + " rs:" + singleTracks + " rd:" + doubleTracks
+                     + " gs:" + stockpile + " gt:" + goodsTransporting);
+                }
 
                 try {
                     Thread.sleep(1000);
-
+                    dayCount++;
                     for (NewDayObserver newDayObserver : newDayObservers) {
                         newDayObserver.update();
                     }
                 } catch (InterruptedException e) {
                     throw new AssertionError(e);
                 }
-
-                System.out.println("Day " + dayCount);
 
             }
             catch (IllegalArgumentException e) {

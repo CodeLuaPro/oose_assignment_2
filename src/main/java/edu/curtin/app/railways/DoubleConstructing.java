@@ -16,8 +16,13 @@ public class DoubleConstructing implements RailwayState {
     public void progressConstruction(RailwayController rc) {
         rc.setDaysToCompletion(rc.getDaysToCompletion() - 1);
         if (rc.getDaysToCompletion() <= 0) {
-            rc.setState(new SingleTransporting());
+            rc.setState(new DoubleTransporting());
 
+            rc.getTownA().setNumSingleTracks(rc.getTownA().getNumSingleTracks() - 1);
+            rc.getTownB().setNumSingleTracks(rc.getTownB().getNumSingleTracks() - 1);
+
+            rc.getTownA().setNumDoubleTracks(rc.getTownA().getNumDoubleTracks() + 1);
+            rc.getTownB().setNumDoubleTracks(rc.getTownB().getNumDoubleTracks() + 1);
         }
     }
 

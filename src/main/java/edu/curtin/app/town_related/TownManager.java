@@ -2,13 +2,11 @@ package edu.curtin.app.town_related;
 
 import edu.curtin.app.railways.RailwayController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TownManager {
     Map<String, Town> towns = new HashMap<String, Town>();
+    List<Town> townsList = new ArrayList<>();
     List<RailwayController> tracks = new ArrayList<>();
 
 
@@ -22,7 +20,7 @@ public class TownManager {
 
     public void addTown(Town town, String name) {
         towns.put(name, town);
-
+        townsList.add(town);
     }
 
     public void addTrack(RailwayController track) {
@@ -38,5 +36,13 @@ public class TownManager {
             }
         }
         return retTrack;
+    }
+
+    public List<Town> getTownsAsList() {
+        return Collections.unmodifiableList(townsList);
+    }
+
+    public List<RailwayController> getTracksAsList() {
+        return Collections.unmodifiableList(tracks);
     }
 }

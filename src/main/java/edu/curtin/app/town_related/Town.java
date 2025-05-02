@@ -1,6 +1,8 @@
 package edu.curtin.app.town_related;
 
-public class Town {
+import edu.curtin.app.interfaces.NewDayObserver;
+
+public class Town implements NewDayObserver {
     private int population;
     int stockpile = 0;
     String name;
@@ -11,7 +13,7 @@ public class Town {
     }
 
     public void addStockpile() {
-        stockpile = 1 * population;
+        stockpile += 1 * population;
     }
 
     public void setPopulation(int population) {
@@ -19,6 +21,17 @@ public class Town {
     }
 
     public void reduceStockpile(int amount) {
-        stockpile -= amount;
+        if (amount < stockpile) {
+            stockpile -= amount;
+        }
+        else {
+            stockpile = 0;
+        }
+
+    }
+
+    @Override
+    public void update() {
+        addStockpile();
     }
 }

@@ -1,13 +1,15 @@
 package edu.curtin.app.town_related;
 
 import edu.curtin.app.interfaces.NewDayObserver;
+import edu.curtin.app.interfaces.NewDayObserverPriority;
 
-public class Town implements NewDayObserver {
+public class Town implements NewDayObserverPriority {
     private int population;
     int stockpile = 0;
     String name;
     int numSingleTracks = 0;
     int numDoubleTracks = 0;
+    int goodsTransportedToday = 0;
 
     public Town(int population, String name) {
         this.population = population;
@@ -60,8 +62,18 @@ public class Town implements NewDayObserver {
         return name;
     }
 
+    public int getGoodsTransportedToday() {
+        return goodsTransportedToday;
+    }
+
+    public void setGoodsTransportedToday(int goodsTransportedToday) {
+        this.goodsTransportedToday = goodsTransportedToday;
+    }
+
+
     @Override
-    public void update() {
+    public void updatePriority() {
+        setGoodsTransportedToday(0);
         addStockpile();
     }
 }

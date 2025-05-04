@@ -13,7 +13,8 @@ public class DoubleConstructingNonFunctional implements RailwayState {
         rc.setDaysToCompletion(rc.getDaysToCompletion() - 1);
         if (rc.getDaysToCompletion() <= 0) {
             rc.setState(new DoubleTransporting());
-
+            rc.getTownA().setNumDoubleTracks(rc.getTownA().getNumDoubleTracks() + 1);
+            rc.getTownB().setNumDoubleTracks(rc.getTownB().getNumDoubleTracks() + 1);
         }
     }
 

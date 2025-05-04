@@ -2,6 +2,7 @@ package edu.curtin.app;
 
 import edu.curtin.app.factories.TownTrackFactory;
 import edu.curtin.app.interfaces.NewDayObserver;
+import edu.curtin.app.interfaces.NewDayObserverPriority;
 import edu.curtin.app.library.TownsInput;
 import edu.curtin.app.railways.RailwayController;
 import edu.curtin.app.town_related.Town;
@@ -30,6 +31,7 @@ public class App
         }};
 
         List<NewDayObserver> newDayObservers = new ArrayList<>();
+        List<NewDayObserverPriority> newDayObserversPriority = new ArrayList<>();
 
         TownsInput input = new TownsInput();
 
@@ -38,19 +40,19 @@ public class App
         TownManager townManager = new TownManager();
 
         while (System.in.available() == 0) {
-            try {
 
-                String[] parts = new String[3];
-                String message;
-                System.out.println("\n--------------------------------");
-                System.out.println("Day :" + dayCount + "\n");
-                while ((message = input.nextMessage()) != null) {
-                    parts = message.split(" ");
 
-                    if (parts.length != 3 || !allowedKeywords.contains(parts[0])) {
-                        throw new IllegalArgumentException("Message must have 3 parts");
-                    }
+            String[] parts = new String[3];
+            String message;
+            System.out.println("\n--------------------------------");
+            System.out.println("Day: " + dayCount + "\n");
+            while ((message = input.nextMessage()) != null) {
+                parts = message.split(" ");
 
+                if (parts.length != 3 || !allowedKeywords.contains(parts[0])) {
+                    logger.log(Level.WARNING, "Illegal message");
+                }
+                else {
                     System.out.println(parts[0] + " " + parts[1] + " " + parts[2]);
 
                     switch (parts[0]) {
@@ -59,7 +61,7 @@ public class App
                             int population = Integer.parseInt(parts[2]);
                             Town newTown = factory.createTown(townName, population);
                             townManager.addTown(newTown, townName);
-                            newDayObservers.add((NewDayObserver) newTown);
+                            newDayObserversPriority.add((NewDayObserverPriority) newTown);
                             break;
                         case "town-population":
                             Town town = townManager.getTown(parts[1]);
@@ -83,37 +85,42 @@ public class App
                             curSingleTrack.beginDoubleConstruction();
                             break;
                     }
-                };
-                System.out.println();
-
-                List<Town> townsList = townManager.getTownsAsList();
-                List<RailwayController> tracksList = townManager.getTracksAsList();
-
-                for (Town town : townsList) {
-                    int singleTracks = town.getNumSingleTracks();
-                    int doubleTracks = town.getNumDoubleTracks();
-                    int population = town.getPopulation();
-                    int stockpile = town.getStockpile();
-                    int goodsTransporting = (singleTracks + doubleTracks) * 100;
-                    String townName = town.getName();
-                    System.out.println(townName + " p:" + town.getPopulation() + " rs:" + singleTracks + " rd:" + doubleTracks
-                     + " gs:" + stockpile + " gt:" + goodsTransporting);
                 }
 
-                try {
-                    Thread.sleep(1000);
-                    dayCount++;
-                    for (NewDayObserver newDayObserver : newDayObservers) {
-                        newDayObserver.update();
-                    }
-                } catch (InterruptedException e) {
-                    throw new AssertionError(e);
-                }
 
             }
-            catch (IllegalArgumentException e) {
-                logger.log(Level.WARNING, "Illegal message");
+            System.out.println();
+
+            List<Town> townsList = townManager.getTownsAsList();
+            List<RailwayController> tracksList = townManager.getTracksAsList();
+
+            for (Town town : townsList) {
+                int singleTracks = town.getNumSingleTracks();
+                int doubleTracks = town.getNumDoubleTracks();
+                int population = town.getPopulation();
+                int stockpile = town.getStockpile();
+                int goodsTransporting = town.getGoodsTransportedToday();
+
+                String townName = town.getName();
+                System.out.println(townName + " p:" + town.getPopulation() + " rs:" + singleTracks + " rd:" + doubleTracks
+                 + " gs:" + stockpile + " gt:" + goodsTransporting);
             }
+
+            try {
+                Thread.sleep(1000);
+                dayCount++;
+                for (NewDayObserverPriority newDayObserver : newDayObserversPriority) {
+                    newDayObserver.updatePriority();
+                }
+                for (NewDayObserver newDayObserver : newDayObservers) {
+                    newDayObserver.update();
+                }
+            } catch (InterruptedException e) {
+                throw new AssertionError(e);
+            }
+
+
+
         }
 
     }

@@ -8,6 +8,7 @@ public class SingleTransporting implements RailwayState {
     @Override
     public void transportGoods(RailwayController rc) {
         Town curTown = rc.getCurTown();
+        curTown.setGoodsTransportedToday(curTown.getGoodsTransportedToday() + 100);
         curTown.reduceStockpile(rc.getTransportAmount());
         rc.switchCurTown();
     }

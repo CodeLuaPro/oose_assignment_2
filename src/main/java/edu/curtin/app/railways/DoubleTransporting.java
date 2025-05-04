@@ -11,6 +11,8 @@ public class DoubleTransporting implements RailwayState {
         Town townB = rc.getTownB();
         townA.reduceStockpile(rc.getTransportAmount());
         townB.reduceStockpile(rc.getTransportAmount());
+        townA.setGoodsTransportedToday(townA.getGoodsTransportedToday() + 100);
+        townB.setGoodsTransportedToday(townB.getGoodsTransportedToday() + 100);
     }
 
     @Override

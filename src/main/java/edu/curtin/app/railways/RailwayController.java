@@ -11,6 +11,7 @@ public class RailwayController implements NewDayObserver {
     private RailwayState state = new SingleConstructing();
     private int transportAmount = 100;
     private int daysToCompletion = 5;
+    private String fileOptions = "[style=\"dashed\"]";
 
     public RailwayController(Town townA, Town townB) {
         this.townA = townA;
@@ -73,6 +74,14 @@ public class RailwayController implements NewDayObserver {
 
     public int getTransportAmount() {
         return transportAmount;
+    }
+
+    public String getFileOptions() {
+        return fileOptions;
+    }
+
+    public void setFileOptions(String fileOptions) {
+        this.fileOptions = fileOptions;
     }
 
     @Override

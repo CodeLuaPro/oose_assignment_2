@@ -1,6 +1,7 @@
 package edu.curtin.app;
 
 import edu.curtin.app.factories.TownTrackFactory;
+import edu.curtin.app.file_output.FileOutput;
 import edu.curtin.app.interfaces.NewDayObserver;
 import edu.curtin.app.interfaces.NewDayObserverPriority;
 import edu.curtin.app.library.TownsInput;
@@ -11,6 +12,7 @@ import edu.curtin.app.town_related.TownManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,6 +40,8 @@ public class App
         TownTrackFactory factory = new TownTrackFactory();
 
         TownManager townManager = new TownManager();
+
+        FileOutput output = new FileOutput(townManager);
 
         while (System.in.available() == 0) {
 
@@ -107,6 +111,7 @@ public class App
             }
 
             try {
+                output.writeToFile("simoutput.dot");
                 Thread.sleep(1000);
                 dayCount++;
                 for (NewDayObserverPriority newDayObserver : newDayObserversPriority) {
@@ -115,12 +120,11 @@ public class App
                 for (NewDayObserver newDayObserver : newDayObservers) {
                     newDayObserver.update();
                 }
+
+
             } catch (InterruptedException e) {
                 throw new AssertionError(e);
             }
-
-
-
         }
 
     }

@@ -24,6 +24,8 @@ public class DoubleConstructing implements RailwayState {
 
             rc.getTownA().setNumDoubleTracks(rc.getTownA().getNumDoubleTracks() + 1);
             rc.getTownB().setNumDoubleTracks(rc.getTownB().getNumDoubleTracks() + 1);
+
+            rc.setFileOptions("[color=\"black:black\"]");
         }
     }
 

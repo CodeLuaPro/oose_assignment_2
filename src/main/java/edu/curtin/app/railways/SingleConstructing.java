@@ -18,6 +18,8 @@ public class SingleConstructing implements RailwayState {
 
             rc.getTownA().setNumSingleTracks(rc.getTownA().getNumSingleTracks() + 1);
             rc.getTownB().setNumSingleTracks(rc.getTownB().getNumSingleTracks() + 1);
+
+            rc.setFileOptions("");
         }
     }
 
@@ -25,5 +27,6 @@ public class SingleConstructing implements RailwayState {
     public void beginDoubleConstruction(RailwayController rc) {
         rc.setDaysToCompletion(5);
         rc.setState(new DoubleConstructingNonFunctional());
+        rc.setFileOptions("[style=\"dashed\",color=\"black:black\"]");
     }
 }

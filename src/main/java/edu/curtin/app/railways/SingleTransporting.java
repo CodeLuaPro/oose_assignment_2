@@ -21,5 +21,6 @@ public class SingleTransporting implements RailwayState {
     @Override
     public void beginDoubleConstruction(RailwayController rc) {
         rc.setState(new DoubleConstructing());
+        rc.setFileOptions("[style=\"dashed\",color=\"black:black\"]");
     }
 }

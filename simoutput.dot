@@ -1,16 +1,9 @@
 graph Towns {
-Bedforest
-Hither_Hadholme
-Dry_Dirtage
-South_Chorthall
-West_Swabmill
+South_Nailhampton
+Newway
+Fowlgarth
 
-Hither_Hadholme -- Bedforest [color="black:black"]
-Hither_Hadholme -- Dry_Dirtage [color="black:black"]
-Bedforest -- South_Chorthall [style="dashed",color="black:black"]
-Dry_Dirtage -- Bedforest 
-Hither_Hadholme -- South_Chorthall 
-Dry_Dirtage -- South_Chorthall [style="dashed"]
-West_Swabmill -- Bedforest [style="dashed"]
-West_Swabmill -- South_Chorthall [style="dashed"]
+South_Nailhampton -- Newway 
+Fowlgarth -- South_Nailhampton [style="dashed"]
+Newway -- Fowlgarth [style="dashed"]
 }

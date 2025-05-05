@@ -1,5 +1,6 @@
 package edu.curtin.app.file_output;
 
+import edu.curtin.app.interfaces.NewDayObserverPriority;
 import edu.curtin.app.railways.RailwayController;
 import edu.curtin.app.town_related.Town;
 import edu.curtin.app.town_related.TownManager;
@@ -8,13 +9,17 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class FileOutput {
+public class FileOutput implements NewDayObserverPriority {
+    private static final Logger logger = Logger.getLogger(FileOutput.class.getName());
     private TownManager townManager;
+    private String fileName;
 
-
-    public FileOutput(TownManager townManager) {
+    public FileOutput(TownManager townManager, String fileName) {
         this.townManager = townManager;
+        this.fileName = fileName;
     }
 
     public String buildString() {
@@ -38,10 +43,17 @@ public class FileOutput {
         return retStr;
     }
 
-    public void writeToFile(String filename) throws IOException { //NOPMD
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+    public void writeToFile() { //NOPMD
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             writer.write(buildString());
+        }
+        catch (IOException e) {
+            logger.log(Level.WARNING, "Error writing to file");
         }
     }
 
+    @Override
+    public void updatePriority() {
+        writeToFile();
+    }
 }

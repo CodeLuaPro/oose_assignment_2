@@ -41,7 +41,8 @@ public class App
 
         TownManager townManager = new TownManager();
 
-        FileOutput output = new FileOutput(townManager);
+        FileOutput output = new FileOutput(townManager, "simoutput.dot");
+        newDayObserversPriority.add(output);
 
         while (System.in.available() == 0) {
 
@@ -111,7 +112,6 @@ public class App
             }
 
             try {
-                output.writeToFile("simoutput.dot");
                 Thread.sleep(1000);
                 dayCount++;
                 for (NewDayObserverPriority newDayObserver : newDayObserversPriority) {

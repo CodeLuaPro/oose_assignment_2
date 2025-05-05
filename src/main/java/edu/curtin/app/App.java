@@ -1,5 +1,6 @@
 package edu.curtin.app;
 
+import edu.curtin.app.enums.NewDayObserverOrder;
 import edu.curtin.app.factories.TownTrackFactory;
 import edu.curtin.app.file_output.FileOutput;
 import edu.curtin.app.interfaces.NewDayObserver;
@@ -32,8 +33,12 @@ public class App
             add("railway-duplication");
         }};
 
-        List<NewDayObserver> newDayObservers = new ArrayList<>();
-        List<NewDayObserverPriority> newDayObserversPriority = new ArrayList<>();
+        List<List<NewDayObserver>> newDayObservers = new ArrayList<>();
+
+        for (int i = 0; i < NewDayObserverOrder.values().length; i++) {
+            newDayObservers.add(new ArrayList<>());
+        }
+
 
         TownsInput input = new TownsInput();
 
@@ -42,21 +47,25 @@ public class App
         TownManager townManager = new TownManager();
 
         FileOutput output = new FileOutput(townManager, "simoutput.dot");
-        newDayObserversPriority.add(output);
+        newDayObservers.get(NewDayObserverOrder.POST.ordinal()).add(output);
 
         while (System.in.available() == 0) {
 
-
             String[] parts = new String[3];
             String message;
+
             System.out.println("\n--------------------------------");
             System.out.println("Day: " + dayCount + "\n");
+
             while ((message = input.nextMessage()) != null) {
                 parts = message.split(" ");
 
-                if (parts.length != 3 || !allowedKeywords.contains(parts[0])) {
+                if (parts.length != 3 || !allowedKeywords.contains(parts[0])
+                        || (parts[0].contains("town-population") && (townManager.getTown(parts[1]) == null))
+                        || (parts[0].contains("railway") && (townManager.getTown(parts[2]) == null || townManager.getTown(parts[1]) == null))) {
                     logger.log(Level.WARNING, "Illegal message");
                 }
+
                 else {
                     System.out.println(parts[0] + " " + parts[1] + " " + parts[2]);
 
@@ -66,7 +75,8 @@ public class App
                             int population = Integer.parseInt(parts[2]);
                             Town newTown = factory.createTown(townName, population);
                             townManager.addTown(newTown, townName);
-                            newDayObserversPriority.add((NewDayObserverPriority) newTown);
+
+                            newDayObservers.get(NewDayObserverOrder.PRE.ordinal()).add(newTown);
                             break;
                         case "town-population":
                             Town town = townManager.getTown(parts[1]);
@@ -79,7 +89,7 @@ public class App
 
                             RailwayController singleTrack = factory.createRailwayController(townA, townB);
                             townManager.addTrack(singleTrack);
-                            newDayObservers.add((NewDayObserver) singleTrack);
+                            newDayObservers.get(NewDayObserverOrder.DURING.ordinal()).add(singleTrack);
                             break;
                         }
                         case "railway-duplication":
@@ -112,14 +122,13 @@ public class App
             }
 
             try {
+                for (List<NewDayObserver> newDayObserverSublist : newDayObservers) {
+                    for (NewDayObserver newDayObserverObj : newDayObserverSublist) {
+                        newDayObserverObj.update();
+                    }
+                }
                 Thread.sleep(1000);
                 dayCount++;
-                for (NewDayObserverPriority newDayObserver : newDayObserversPriority) {
-                    newDayObserver.updatePriority();
-                }
-                for (NewDayObserver newDayObserver : newDayObservers) {
-                    newDayObserver.update();
-                }
 
 
             } catch (InterruptedException e) {

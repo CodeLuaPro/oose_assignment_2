@@ -1,9 +1,10 @@
 graph Towns {
-South_Nailhampton
-Newway
-Fowlgarth
+Draftmore
+Brakecaster
+Hythe_Farrowbeth
+Wetchfold
 
-South_Nailhampton -- Newway 
-Fowlgarth -- South_Nailhampton [style="dashed"]
-Newway -- Fowlgarth [style="dashed"]
+Draftmore -- Brakecaster 
+Hythe_Farrowbeth -- Draftmore [style="dashed"]
+Hythe_Farrowbeth -- Brakecaster [style="dashed"]
 }

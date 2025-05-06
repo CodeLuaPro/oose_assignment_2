@@ -4,7 +4,6 @@ import edu.curtin.app.enums.NewDayObserverOrder;
 import edu.curtin.app.factories.TownTrackFactory;
 import edu.curtin.app.file_output.FileOutput;
 import edu.curtin.app.interfaces.NewDayObserver;
-import edu.curtin.app.interfaces.NewDayObserverPriority;
 import edu.curtin.app.library.TownsInput;
 import edu.curtin.app.railways.RailwayController;
 import edu.curtin.app.town_related.Town;
@@ -13,7 +12,6 @@ import edu.curtin.app.town_related.TownManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

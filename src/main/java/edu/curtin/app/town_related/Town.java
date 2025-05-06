@@ -1,7 +1,6 @@
 package edu.curtin.app.town_related;
 
 import edu.curtin.app.interfaces.NewDayObserver;
-import edu.curtin.app.interfaces.NewDayObserverPriority;
 
 public class Town implements NewDayObserver {
     private int population;

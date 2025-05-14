@@ -1,10 +1,13 @@
 graph Towns {
-Draftmore
-Brakecaster
-Hythe_Farrowbeth
-Wetchfold
+Hornport
+Adderburgh
+Tatcombe
+Newton_Gafstable
+Scallock
+Osthwaite
 
-Draftmore -- Brakecaster 
-Hythe_Farrowbeth -- Draftmore [style="dashed"]
-Hythe_Farrowbeth -- Brakecaster [style="dashed"]
+Hornport -- Newton_Gafstable [style="dashed",color="black:black"]
+Adderburgh -- Newton_Gafstable [style="dashed",color="black:black"]
+Hornport -- Adderburgh [style="dashed"]
+Tatcombe -- Hornport [style="dashed"]
 }

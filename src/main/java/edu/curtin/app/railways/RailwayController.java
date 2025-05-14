@@ -4,14 +4,20 @@ import edu.curtin.app.interfaces.NewDayObserver;
 import edu.curtin.app.interfaces.RailwayState;
 import edu.curtin.app.town_related.Town;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+//PURPOSE: context class for the railway states
 public class RailwayController implements NewDayObserver {
+    private static final Logger logger = Logger.getLogger(RailwayController.class.getName());
+
     private Town townA;
     private Town townB;
-    private Town curTown;
+    private Town curTown; //the town that the railway is currently transporting to (if single)
     private RailwayState state = new SingleConstructing();
     private int transportAmount = 100;
     private int daysToCompletion = 5;
-    private String fileOptions = "[style=\"dashed\"]";
+    private String fileOptions = "[style=\"dashed\"]"; //options for printing the railway status to the file
 
     public RailwayController(Town townA, Town townB) {
         this.townA = townA;
@@ -20,14 +26,17 @@ public class RailwayController implements NewDayObserver {
     }
 
     public void transportGoods() {
+        logger.log(Level.INFO, "transporting goods");
         state.transportGoods(this);
     }
 
     public void progressConstruction() {
+        logger.log(Level.INFO, "progressing construction");
         state.progressConstruction(this);
     }
 
     public void beginDoubleConstruction() {
+        logger.log(Level.INFO, "beginning double construction");
         state.beginDoubleConstruction(this);
     }
 
@@ -41,6 +50,7 @@ public class RailwayController implements NewDayObserver {
     }
 
     public void setState(RailwayState state) {
+        logger.log(Level.INFO, "Setting new state to railway");
         this.state = state;
     }
 
@@ -64,14 +74,6 @@ public class RailwayController implements NewDayObserver {
         this.daysToCompletion = daysToCompletion;
     }
 
-    public void setCurTown(Town curTown) {
-        this.curTown = curTown;
-    }
-
-    public RailwayState getState() {
-        return state;
-    }
-
     public int getTransportAmount() {
         return transportAmount;
     }
@@ -84,6 +86,7 @@ public class RailwayController implements NewDayObserver {
         this.fileOptions = fileOptions;
     }
 
+    //on each day, attempt to progress construction and transport goods.
     @Override
     public void update() {
         progressConstruction();

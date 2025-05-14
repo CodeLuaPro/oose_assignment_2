@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+//PURPOSE: output the progress of the simulation to a file
 public class FileOutput implements NewDayObserver {
     private static final Logger logger = Logger.getLogger(FileOutput.class.getName());
     private TownManager townManager;
@@ -22,17 +23,22 @@ public class FileOutput implements NewDayObserver {
         this.fileName = fileName;
     }
 
+    //PURPOSE: build the string that will eventually be written to a file
     public String buildString() {
         String retStr = "graph Towns {\n";
         List<Town> towns = townManager.getTownsAsList();
         List<RailwayController> tracks = townManager.getTracksAsList();
 
+        //append the name of each town to the string
         for (Town town : towns) {
             retStr += town.getName() + "\n";
+            logger.log(Level.INFO, "reading town info for file output string");
         }
         retStr += "\n";
 
+        //append all existing railway controllers (ready or building) to the file
         for (RailwayController track : tracks) {
+            logger.log(Level.INFO, "reading track info for file output string");
             String townAName = track.getTownA().getName();
             String townBName = track.getTownB().getName();
             retStr += townAName + " -- " + townBName + " " + track.getFileOptions() + "\n";
@@ -43,8 +49,9 @@ public class FileOutput implements NewDayObserver {
         return retStr;
     }
 
-    public void writeToFile() { //NOPMD
+    public void writeToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            logger.log(Level.INFO, "writing to file");
             writer.write(buildString());
         }
         catch (IOException e) {

@@ -1,13 +1,11 @@
 graph Towns {
-Hornport
-Adderburgh
-Tatcombe
-Newton_Gafstable
-Scallock
-Osthwaite
+Narrow_Farhythe
+Ferworth
+Wootport
+Market_Muddlehaven
 
-Hornport -- Newton_Gafstable [style="dashed",color="black:black"]
-Adderburgh -- Newton_Gafstable [style="dashed",color="black:black"]
-Hornport -- Adderburgh [style="dashed"]
-Tatcombe -- Hornport [style="dashed"]
+Narrow_Farhythe -- Ferworth [color="black:black"]
+Wootport -- Narrow_Farhythe [style="dashed",color="black:black"]
+Ferworth -- Wootport [style="dashed"]
+Narrow_Farhythe -- Market_Muddlehaven [style="dashed"]
 }

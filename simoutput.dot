@@ -1,11 +1,5 @@
 graph Towns {
-Narrow_Farhythe
-Ferworth
-Wootport
-Market_Muddlehaven
+Tetstone
+Lower_Wexshaw
 
-Narrow_Farhythe -- Ferworth [color="black:black"]
-Wootport -- Narrow_Farhythe [style="dashed",color="black:black"]
-Ferworth -- Wootport [style="dashed"]
-Narrow_Farhythe -- Market_Muddlehaven [style="dashed"]
 }

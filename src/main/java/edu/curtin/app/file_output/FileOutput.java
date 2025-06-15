@@ -24,7 +24,7 @@ public class FileOutput implements NewDayObserver {
     }
 
     //PURPOSE: build the string that will eventually be written to a file
-    public String buildString() {
+    private String buildString() {
         String retStr = "graph Towns {\n";
         List<Town> towns = townManager.getTownsAsList();
         List<RailwayController> tracks = townManager.getTracksAsList();
@@ -49,7 +49,7 @@ public class FileOutput implements NewDayObserver {
         return retStr;
     }
 
-    public void writeToFile() {
+    private void writeToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             logger.log(Level.INFO, "writing to file");
             writer.write(buildString());

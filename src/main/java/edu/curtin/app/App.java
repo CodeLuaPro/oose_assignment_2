@@ -40,11 +40,11 @@ public class App
         simRunner.init();
 
         while (System.in.available() == 0) {
-
             String message;
 
             System.out.println("\n--------------------------------");
             System.out.println("Day: " + dayCount + "\n");
+            
             //update all the observers, notifying them of a new day
             simRunner.notifyObservers();
             //while the message isn't null...
